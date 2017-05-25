@@ -1,3 +1,4 @@
+import { SettingsService } from './settings.service';
 import { CalculateService } from './calculate.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -17,7 +18,7 @@ import { HomeComponent } from './home/home.component';
     FormsModule,
     HttpModule
   ],
-  providers: [CalculateService],
+  providers: [CalculateService, SettingsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
