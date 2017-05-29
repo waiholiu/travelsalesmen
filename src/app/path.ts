@@ -15,13 +15,16 @@ export class Path {
 
         let fitness = 0;
 
-        // for (let i = 0; i < this.path.length - 1; i++) {
-        //     Destination startDest = path[i];
-        //     Destination endDest = path[i + 1];
-        //     var dist = Math.Abs(endDest.x - startDest.x);
-        //     fitness = fitness + dist;
+        for (let i = 0; i < this.path.length - 1; i++) {
+            let startDest = this.path[i];
+            let endDest = this.path[i + 1];
+            
+            let xd = startDest.PointX - endDest.PointX;
+            let yd = startDest.PointY - endDest.PointY;
+            let dist =  Math.sqrt(xd * xd + yd * yd);
+            fitness = fitness + dist;
 
-        // }
+        }
 
         return fitness;
 

@@ -5,6 +5,7 @@ import * as _ from 'underscore';
 export class Generation {
 
     paths: Path[] = <Path[]>[];
+    generationNumber : number;
 
     constructor(private settingsService: SettingsService) { }
 
@@ -22,13 +23,13 @@ export class Generation {
     }
 
     public FittestPath(): Path {
-        let sorted = _.sortBy(this.paths, (p) => p.Fitness);
+        let sorted = _.sortBy(this.paths, (p) => p.Fitness());
 
         return sorted[0];
     }
 
     public UnFittestPath(): Path {
-        let sorted = _.sortBy(this.paths, (p) => p.Fitness * -1);
+        let sorted = _.sortBy(this.paths, (p) => p.Fitness() * -1);
         return sorted[0];
     }
 

@@ -1,6 +1,8 @@
 <canvas #myCanvas height="600" width="600" style="border:1px solid #000000;"></canvas>
 
 <button (click)="onStart()">Start</button>
+<button (click)="onStop()">Stop</button>
 
-<p> {{textDisplay}} </p>
-
+<p> distance is :  {{bestDistance}} </p>
+<p> generation : {{currentGeneration}} </p>
+<p> number of dots : {{settingService.RouteLength}} </p>

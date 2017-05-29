@@ -8,17 +8,17 @@ export class SettingsService {
 
   constructor() { }
 
-  public TotalPopulation: number = 20;
-  public NoOfGenerations: number = 30000;
+  public TotalPopulation: number = 100;
+  public NoOfGenerations: number = 10000;
   public AllDestinations: Destination[];
 
   public tournamentSize: number = 3;
 
   public IsElitist: Boolean = true;
 
-  public MutationRate: number = 0.99;
+  public MutationRate: number = 0.1;
 
-  public RouteLength: number = 50;
+  public RouteLength: number = 20;
 
   public HalfRouteLength(): number {
     return Math.floor(this.RouteLength / 2);
@@ -31,9 +31,6 @@ export class SettingsService {
     let subSetOfParent1 = <Destination[]>[];
 
     for (let i = parent1Section; i < parent1Section + this.HalfRouteLength(); i++) {
-      if (parent1.path[i] == null) {
-        console.log('stop');
-      }
       subSetOfParent1.push(parent1.path[i]);
 
     }
@@ -62,18 +59,12 @@ export class SettingsService {
     for (let i = 0; i < this.RouteLength; i++) {
       // if current i is in the starting section of parent 1, use parent 1
       if (i >= parent1Section && i < parent1Section + this.HalfRouteLength()) {
-        if (parent1.path[i] == null) {
-          console.log('stop1');
-        }
         newRoute.path.push(parent1.path[i]);
       }
       else {
 
         // if not, check if parent2's destination at i is a destination in parent1's startingsection, 
         let p = parent2NonParent1Dest.shift();
-        if (p == null) {
-          console.log('p');
-        }
         newRoute.path.push(p);
       }
 

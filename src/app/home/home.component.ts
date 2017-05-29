@@ -1,3 +1,4 @@
+import { SettingsService } from './../settings.service';
 import { CalculateService } from './../calculate.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Destination } from "app/destination";
@@ -9,7 +10,7 @@ import { Destination } from "app/destination";
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private calculateService: CalculateService) { }
+  constructor(private settingService : SettingsService, private calculateService: CalculateService) { }
 
   canvasWidth: number = 600;
   canvasHeight: number = 400;
@@ -26,7 +27,7 @@ export class HomeComponent implements OnInit {
 
     this.context = canvas.getContext("2d");
 
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < this.settingService.RouteLength; i++) {
       let _x = Math.floor(Math.random() * 600);
       let _y = Math.floor(Math.random() * 600);
       let dot = <Destination>{ PointX: _x, PointY: _y, Id: i }
@@ -36,35 +37,31 @@ export class HomeComponent implements OnInit {
 
     this.drawDots();
 
-
-
   }
 
-  textDisplay : string;
+  bestDistance : number;
+  currentGeneration : number;
+
+
+  onStop() {
+
+    this.calculateService.toStop = true;
+
+  }
 
   onStart() {
 
 
     this.calculateService.broadcast.subscribe(
       data => {
-        if (data < 10) {
-          console.log(data);
-          this.textDisplay = data.toString();;
-
-
-        }
+          this.drawDots();
+          this.plotBestRoute(data.FittestPath().path);
+          this.bestDistance = data.FittestPath().Fitness();
+          this.currentGeneration = data.generationNumber;
+      
       });
 
     this.calculateService.CalculateBestRoute(this.destinations);
-
-
-    // .subscribe(
-    //   data => {
-    //     this.drawDots();
-    //     this.plotBestRoute(data);
-
-    //   }
-    // );
 
   }
 
