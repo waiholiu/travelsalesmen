@@ -11,8 +11,8 @@ export class HomeComponent implements OnInit {
 
   constructor(private calculateService: CalculateService) { }
 
-  canvasWidth : number = 600;
-  canvasHeight : number = 400;
+  canvasWidth: number = 600;
+  canvasHeight: number = 400;
 
   context: CanvasRenderingContext2D;
 
@@ -23,28 +23,48 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     let canvas = this.myCanvas.nativeElement;
-    
+
     this.context = canvas.getContext("2d");
 
     for (let i = 0; i < 50; i++) {
       let _x = Math.floor(Math.random() * 600);
       let _y = Math.floor(Math.random() * 600);
-      let dot = <Destination>{ PointX: _x, PointY: _y }
+      let dot = <Destination>{ PointX: _x, PointY: _y, Id: i }
       this.destinations.push(dot);
 
     }
 
     this.drawDots();
+
+
+
   }
 
-  onStart() {
-    this.calculateService.CalculateBestRoute(this.destinations).subscribe(
-      data => {
-        this.drawDots();
-        this.plotBestRoute(data);
+  textDisplay : string;
 
-      }
-    );
+  onStart() {
+
+
+    this.calculateService.broadcast.subscribe(
+      data => {
+        if (data < 10) {
+          console.log(data);
+          this.textDisplay = data.toString();;
+
+
+        }
+      });
+
+    this.calculateService.CalculateBestRoute(this.destinations);
+
+
+    // .subscribe(
+    //   data => {
+    //     this.drawDots();
+    //     this.plotBestRoute(data);
+
+    //   }
+    // );
 
   }
 
@@ -72,7 +92,7 @@ export class HomeComponent implements OnInit {
 
     }
 
-    
+
     this.context.stroke();
 
 

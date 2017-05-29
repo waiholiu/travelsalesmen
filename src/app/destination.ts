@@ -1,4 +1,5 @@
 export interface Destination {
     PointX : number,
-    PointY : number
+    PointY : number,
+    Id : number
 }

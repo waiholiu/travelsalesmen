@@ -8,7 +8,7 @@ export class Path {
     constructor(private settingsService: SettingsService, private prePopulate: Boolean = true) {
         if (prePopulate)
             this.path = this.settingsService.AllDestinations;
-
+            
     }
 
     public Fitness(): number {
