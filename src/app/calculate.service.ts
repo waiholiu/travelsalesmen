@@ -57,10 +57,12 @@ export class CalculateService {
 
         newG.generationNumber = i;
         // if we want to have eliteism.
-        newG.paths.push(currG.FittestPath());
+
+        if(this.settingsService.IsElitist)
+          newG.paths.push(currG.FittestPath());
 
         // get new generation of routes
-        for (let j = 1; j < this.settingsService.TotalPopulation; j++) {
+        for (let j = this.settingsService.IsElitist ? 1 : 0; j < this.settingsService.TotalPopulation; j++) {
 
           // select two routes via tournament selection
           let parent1 = currG.RunTournament();
