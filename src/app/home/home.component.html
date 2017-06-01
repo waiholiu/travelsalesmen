@@ -4,11 +4,11 @@
 
         <p>
             <label class="label">Number of dots</label>
-            <input [disabled]="NotInMode(['new', 'generated'])" class="slider" type="range" max="40" min="1" [(ngModel)]="settingService.RouteLength" /> {{settingService.RouteLength}}
+            <input [disabled]="NotInMode(['new', 'generated'])" class="slider" type="range" max="150" min="1" [(ngModel)]="settingService.RouteLength" /> {{settingService.RouteLength}}
             </p>
         <p>
             <label class="label">Total Population</label>
-            <input [disabled]="NotInMode(['new', 'generated'])" class="slider" type="range" max="200" min="1" [(ngModel)]="settingService.TotalPopulation" /> {{settingService.TotalPopulation}}
+            <input [disabled]="NotInMode(['new', 'generated'])" class="slider" type="range" max="300" min="1" [(ngModel)]="settingService.TotalPopulation" /> {{settingService.TotalPopulation}}
             </p>
         <p>
             <label class="label">No Of Generations to run</label>
@@ -31,9 +31,9 @@
             <input type="checkbox" [(ngModel)]="settingService.IsElitist" />
         </p>
 
-        <p> <label class="label"> Number of possible pathways </label> {{noOfCombinations | number}}</p>
+        <p> <label class="label"> Number of possible pathways </label> {{noOfCombinations}}</p>
         <p> <label class="label"> Number of pathways to calculate </label> {{noOfTests | number}}</p>
-        <p> best distance is : {{bestDistance}} </p>
+        <p> best distance is : {{bestDistance | number}} </p>
         <p> generation : {{currentGeneration}} </p>
         <p> mode : {{mode}}</p>
         <p>

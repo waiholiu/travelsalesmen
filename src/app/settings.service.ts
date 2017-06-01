@@ -8,7 +8,7 @@ export class SettingsService {
 
   constructor() { }
 
-  public TotalPopulation: number = 100;
+  public TotalPopulation: number = 50;
   public NoOfGenerations: number = 10000;
   public AllDestinations: Destination[];
 
@@ -18,7 +18,7 @@ export class SettingsService {
 
   public MutationRate: number = 0.1;
 
-  public RouteLength: number = 20;
+  public RouteLength: number = 16;
 
   public HalfRouteLength(): number {
     return Math.floor(this.RouteLength / 2);
@@ -62,7 +62,8 @@ export class SettingsService {
     if (Math.random() < this.MutationRate) {
 
       // let noOfPathMutated = Math.floor(Math.random() * this.HalfRouteLength());
-      for (let i = 0; i < 1; i++) {
+      let noOfPathMutated = 3;
+      for (let i = 0; i < noOfPathMutated; i++) {
         let random1 = Math.floor(Math.random() * this.RouteLength);
         let random2 = Math.floor(Math.random() * this.RouteLength);
 

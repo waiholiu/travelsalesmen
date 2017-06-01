@@ -5,20 +5,20 @@ import * as _ from 'underscore';
 export class Generation {
 
     paths: Path[] = <Path[]>[];
-    generationNumber : number;
+    generationNumber: number;
 
     constructor(private settingsService: SettingsService) { }
 
     public RunTournament(): Path {
 
-            // var contestants = routes.OrderBy(x => Guid.NewGuid()).Take(HelperClass.tournamentSize);
-            // return contestants.OrderBy(c => c.Fitness).First();
+        // var contestants = routes.OrderBy(x => Guid.NewGuid()).Take(HelperClass.tournamentSize);
+        // return contestants.OrderBy(c => c.Fitness).First();
 
         // randomly pick tournaments
         let contestants = _.first(_.shuffle(this.paths), this.settingsService.tournamentSize);
 
         // get the best one 
-        return  _.sortBy(contestants, (p)=>p.Fitness)[0];
+        return _.sortBy(contestants, (p) => p.Fitness)[0];
 
     }
 
@@ -26,6 +26,13 @@ export class Generation {
         let sorted = _.sortBy(this.paths, (p) => p.Fitness());
 
         return sorted[0];
+    }
+
+    public AverageFitness(): number {
+        return _.reduce(this.paths, function (memo, num) {
+            return  memo + num.Fitness();
+        }, 0) / this.paths.length;
+
     }
 
     public UnFittestPath(): Path {
