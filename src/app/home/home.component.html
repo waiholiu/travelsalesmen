@@ -21,6 +21,11 @@
             </p>
 
         <p>
+            <label class="label">Tournament Size</label>
+            <input class="slider" type="range" max="30" min="1" step="1" [(ngModel)]="settingService.tournamentSize" /> {{settingService.tournamentSize}}
+            </p>
+
+        <p>
 
             <label class="label"> Is Elitist </label>
             <input type="checkbox" [(ngModel)]="settingService.IsElitist" />

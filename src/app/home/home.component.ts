@@ -11,7 +11,7 @@ import * as _ from 'underscore';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private settingService: SettingsService, private calculateService: CalculateService) { }
+  constructor(public settingService: SettingsService, private calculateService: CalculateService) { }
 
   canvasWidth: number = 400;
   canvasHeight: number = 600;

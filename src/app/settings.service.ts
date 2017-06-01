@@ -12,7 +12,7 @@ export class SettingsService {
   public NoOfGenerations: number = 10000;
   public AllDestinations: Destination[];
 
-  public tournamentSize: number = 3;
+  public tournamentSize: number = 5;
 
   public IsElitist: Boolean = true;
 
@@ -27,7 +27,7 @@ export class SettingsService {
   public RunCrossOver(parent1: Path, parent2: Path): Path {
 
     let parent1Section = Math.floor(Math.random() * (this.HalfRouteLength() - 1));
-  
+
     let subSetOfParent1 = <Destination[]>[];
 
     for (let i = parent1Section; i < parent1Section + this.HalfRouteLength(); i++) {
@@ -40,20 +40,9 @@ export class SettingsService {
     let parent2NonParent1Dest = <Destination[]>[];
     parent2NonParent1Dest = _.filter(parent2.path, (p2) => _.every(subSetOfParent1,
       (p1) => {
-        // if (p1 == null) {
-        //   console.log('p1');
-        //   console.log(subSetOfParent1);
-        // }
-        // if (p2 == null) {
-        //   console.log('p2');
-        //   console.log(parent2);
-        // }
         return p1.Id != p2.Id;
 
       }));
-    // new Queue<Destination>(parent2.path.Where(p2 => subSetOfParent1.All(p1 => p1.Id != p2.Id)));
-
-
 
     let newRoute = new Path(this, false);
     for (let i = 0; i < this.RouteLength; i++) {
@@ -71,13 +60,16 @@ export class SettingsService {
     }
 
     if (Math.random() < this.MutationRate) {
-      let random1 = Math.floor(Math.random() * this.RouteLength);
-      let random2 = Math.floor(Math.random() * this.RouteLength);
 
-      let middleRoute = newRoute.path[random1];
-      newRoute.path[random1] = newRoute.path[random2];
-      newRoute.path[random2] = middleRoute;
+      // let noOfPathMutated = Math.floor(Math.random() * this.HalfRouteLength());
+      for (let i = 0; i < 1; i++) {
+        let random1 = Math.floor(Math.random() * this.RouteLength);
+        let random2 = Math.floor(Math.random() * this.RouteLength);
 
+        let middleRoute = newRoute.path[random1];
+        newRoute.path[random1] = newRoute.path[random2];
+        newRoute.path[random2] = middleRoute;
+      }
 
     }
 
