@@ -121,6 +121,9 @@ export class HomeComponent implements OnInit {
 
     }
 
+    // plot back to beginning
+    this.context.lineTo(route[0].PointX, route[0].PointY);
+
 
     this.context.stroke();
 
