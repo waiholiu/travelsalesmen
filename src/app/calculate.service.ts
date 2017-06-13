@@ -85,8 +85,6 @@ export class CalculateService {
 
     return Observable.of(currG.FittestPath().path);
 
-    // Console.WriteLine("route: " + currG.FittestRoute.ToString());
-
   }
 
 

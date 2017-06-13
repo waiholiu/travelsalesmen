@@ -8,7 +8,7 @@ export class SettingsService {
 
   constructor() { }
 
-  public TotalPopulation: number = 50;
+  public TotalPopulation: number = 20;
   public NoOfGenerations: number = 10000;
   public AllDestinations: Destination[];
 
