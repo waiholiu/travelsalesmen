@@ -12,7 +12,7 @@ export class SettingsService {
   public NoOfGenerations: number = 25000;
   public AllDestinations: Destination[];
 
-  public tournamentSize: number = 5;
+  public tournamentSize: number = 15;
 
   public IsElitist: Boolean = true;
 
