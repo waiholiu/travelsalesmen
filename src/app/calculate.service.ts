@@ -7,6 +7,7 @@ import { Generation } from "app/generation";
 import { Subject } from "rxjs/Subject";
 
 
+
 @Injectable()
 export class CalculateService {
 
@@ -72,9 +73,12 @@ export class CalculateService {
           let crossOverPath = this.settingsService.RunCrossOver(parent1, parent2);
 
           newG.paths.push(crossOverPath);
-          currG = newG;
-          this.broadcast.next(newG);
+          
         }
+
+        currG = newG;
+        this.broadcast.next(newG);
+
       }, 1));
 
 
