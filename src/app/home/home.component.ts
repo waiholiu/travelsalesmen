@@ -1,3 +1,4 @@
+import { Path } from 'app/path';
 import { SettingsService } from './../settings.service';
 import { CalculateService } from './../calculate.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -36,6 +37,7 @@ export class HomeComponent implements OnInit {
 
   bestDistance: number;
   currentGeneration: number;
+  sortedPaths : Path[];
 
   get noOfCombinations(): number {
     return this.rFact(this.settingService.RouteLength - 1) / 2;
@@ -90,6 +92,7 @@ export class HomeComponent implements OnInit {
         this.plotBestRoute(data.FittestPath().path);
         this.bestDistance = data.FittestPath().Fitness();
         this.currentGeneration = data.generationNumber;
+        this.sortedPaths = data.PathsSortedByFitness();
 
       });
 

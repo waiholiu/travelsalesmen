@@ -11,14 +11,11 @@ export class Generation {
 
     public RunTournament(): Path {
 
-        // var contestants = routes.OrderBy(x => Guid.NewGuid()).Take(HelperClass.tournamentSize);
-        // return contestants.OrderBy(c => c.Fitness).First();
-
         // randomly pick tournaments
         let contestants = _.first(_.shuffle(this.paths), this.settingsService.tournamentSize);
 
-        // get the best one 
-        return _.sortBy(contestants, (p) => p.Fitness)[0];
+        // get the best two to be the first parents 
+        return _.sortBy(contestants, (p) => p.Fitness())[0];
 
     }
 
@@ -38,6 +35,11 @@ export class Generation {
     public UnFittestPath(): Path {
         let sorted = _.sortBy(this.paths, (p) => p.Fitness() * -1);
         return sorted[0];
+    }
+
+    public PathsSortedByFitness() : Path[]
+    {
+        return _.sortBy(this.paths, (p) => p.Fitness());
     }
 
 }

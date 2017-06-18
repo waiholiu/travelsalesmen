@@ -9,7 +9,7 @@ export class SettingsService {
   constructor() { }
 
   public TotalPopulation: number = 20;
-  public NoOfGenerations: number = 10000;
+  public NoOfGenerations: number = 25000;
   public AllDestinations: Destination[];
 
   public tournamentSize: number = 5;

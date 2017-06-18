@@ -1,13 +1,13 @@
 import { SettingsService } from './settings.service';
 import { Destination } from './destination';
-
+import * as _ from 'underscore';
 
 export class Path {
     path: Destination[] = <Destination[]>[];
 
     constructor(private settingsService: SettingsService, private prePopulate: Boolean = true) {
         if (prePopulate)
-            this.path = this.settingsService.AllDestinations;
+            this.path = _.shuffle(this.settingsService.AllDestinations);
 
     }
 
@@ -40,12 +40,16 @@ export class Path {
 
     }
 
-    // public override string ToString()
-    // {
-    //     StringBuilder returnStr = new StringBuilder();
-    //     foreach (var d in path) {
-    //         returnStr.Append(d.x + " ");
-    //     }
-    //     return returnStr.ToString();
-    // }
+    get ToString(): String {
+        let output = "";
+        
+        for(let d of this.path)
+        {
+            output += d.Id + " "
+
+        }
+        return output
+
+
+    }
 }
