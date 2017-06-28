@@ -39,26 +39,37 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit() {
     this.activatedRoute.queryParams.subscribe((params: Params) => {
-      let dotsValue = params['dots'];
-      if (dotsValue) {
-        let obj = JSON.parse(dotsValue);
-        this.destinations = obj;
+      try {
+        let dotsValue = params['dots'];
+        if (dotsValue) {
+          let obj = JSON.parse(dotsValue);
+          this.destinations = obj;
 
-        let canvas = this.myCanvas.nativeElement;
-        this.context = canvas.getContext("2d");
-        this.drawDots();
-        this.mode = "generated";
+          let canvas = this.myCanvas.nativeElement;
+          this.context = canvas.getContext("2d");
+          this.drawDots();
+          this.mode = "generated";
 
-        this.settingService.TotalPopulation =  params["TotalPopulation"]
-        this.settingService.NoOfGenerations =  params["NoOfGenerations"]
-        this.settingService.tournamentSize =  params["tournamentSize"]
-        this.settingService.IsElitist =  params["IsElitist"]
-        this.settingService.MutationRate =  params["MutationRate"]
-        this.settingService.RouteLength =  params["RouteLength"]
-   
+          this.settingService.TotalPopulation = params["TotalPopulation"] as number;
+          this.settingService.NoOfGenerations = params["NoOfGenerations"] as number;
+          this.settingService.tournamentSize = params["tournamentSize"] as number;
+          this.settingService.IsElitist = params["IsElitist"] as Boolean;
+          this.settingService.MutationRate = params["MutationRate"] as number;
+          this.settingService.RouteLength = params["RouteLength"] as number;
+
+        }
+      }
+      catch(ex)
+      {
+        console.log(ex);
       }
     });
 
+  }
+
+  onSettingChange()
+  {
+    this.saveToQueryString();
   }
 
   bestDistance: number;
@@ -128,8 +139,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   }
 
-  private setFromQueryString()
-  {
+  private setFromQueryString() {
 
 
   }
@@ -138,14 +148,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
     let currentURL = [location.protocol, '//', location.host].join('');
     let dots = JSON.stringify(this.destinations)
     let queryString = "?dots=" + dots;
-    
+
     queryString += "&TotalPopulation=" + this.settingService.TotalPopulation;
     queryString += "&NoOfGenerations=" + this.settingService.NoOfGenerations;
-     queryString += "&tournamentSize=" + this.settingService.tournamentSize;
-     queryString += "&IsElitist=" + this.settingService.IsElitist;
-     queryString += "&MutationRate=" + this.settingService.MutationRate;
-     queryString += "&RouteLength=" + this.settingService.RouteLength;
-    
+    queryString += "&tournamentSize=" + this.settingService.tournamentSize;
+    queryString += "&IsElitist=" + this.settingService.IsElitist;
+    queryString += "&MutationRate=" + this.settingService.MutationRate;
+    queryString += "&RouteLength=" + this.settingService.RouteLength;
+
     window.history.replaceState({}, "", currentURL + queryString);
 
   }
