@@ -87,8 +87,6 @@ export class CalculateService {
 
     }
 
-    return Observable.of(currG.FittestPath().path);
-
   }
 
 
