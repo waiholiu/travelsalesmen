@@ -1,18 +1,20 @@
 import { Path } from 'app/path';
 import { SettingsService } from './../settings.service';
 import { CalculateService } from './../calculate.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Destination } from "app/destination";
 import * as _ from 'underscore';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
 
-  constructor(public settingService: SettingsService, private calculateService: CalculateService) { }
+  constructor(public settingService: SettingsService, private calculateService: CalculateService,
+    private activatedRoute: ActivatedRoute) { }
 
   canvasWidth: number = 400;
   canvasHeight: number = 600;
@@ -25,19 +27,43 @@ export class HomeComponent implements OnInit {
   bestRoute: Destination[];
   mode: String = "new";
 
-  NotInMode(acceptableModes : String[]): Boolean
-  {
+  NotInMode(acceptableModes: String[]): Boolean {
     return acceptableModes.indexOf(this.mode) < 0;
   }
 
   ngOnInit() {
 
 
+
+
+  }
+  ngAfterViewInit() {
+    this.activatedRoute.queryParams.subscribe((params: Params) => {
+      let dotsValue = params['dots'];
+      if (dotsValue) {
+        let obj = JSON.parse(dotsValue);
+        this.destinations = obj;
+
+        let canvas = this.myCanvas.nativeElement;
+        this.context = canvas.getContext("2d");
+        this.drawDots();
+        this.mode = "generated";
+
+        this.settingService.TotalPopulation =  params["TotalPopulation"]
+        this.settingService.NoOfGenerations =  params["NoOfGenerations"]
+        this.settingService.tournamentSize =  params["tournamentSize"]
+        this.settingService.IsElitist =  params["IsElitist"]
+        this.settingService.MutationRate =  params["MutationRate"]
+        this.settingService.RouteLength =  params["RouteLength"]
+   
+      }
+    });
+
   }
 
   bestDistance: number;
   currentGeneration: number;
-  sortedPaths : Path[];
+  sortedPaths: Path[];
 
   get noOfCombinations(): number {
     return this.rFact(this.settingService.RouteLength - 1) / 2;
@@ -68,6 +94,7 @@ export class HomeComponent implements OnInit {
 
     }
 
+    this.saveToQueryString();
     this.drawDots();
 
     this.mode = "generated";
@@ -78,7 +105,7 @@ export class HomeComponent implements OnInit {
 
     this.calculateService.toStop = true;
     this.mode = "stop";
-    // this.calculateService.broadcast.unsubscribe();
+    //this.calculateService.broadcast.unsubscribe();
 
   }
 
@@ -86,7 +113,8 @@ export class HomeComponent implements OnInit {
     this.mode = "run";
     this.calculateService.toStop = false;
 
-    this.calculateService.broadcast.subscribe(
+    this.calculateService.broadcast.
+      subscribe(
       data => {
         this.drawDots();
         this.plotBestRoute(data.FittestPath().path);
@@ -99,6 +127,29 @@ export class HomeComponent implements OnInit {
     this.calculateService.CalculateBestRoute(this.destinations);
 
   }
+
+  private setFromQueryString()
+  {
+
+
+  }
+
+  private saveToQueryString() {
+    let currentURL = [location.protocol, '//', location.host].join('');
+    let dots = JSON.stringify(this.destinations)
+    let queryString = "?dots=" + dots;
+    
+    queryString += "&TotalPopulation=" + this.settingService.TotalPopulation;
+    queryString += "&NoOfGenerations=" + this.settingService.NoOfGenerations;
+     queryString += "&tournamentSize=" + this.settingService.tournamentSize;
+     queryString += "&IsElitist=" + this.settingService.IsElitist;
+     queryString += "&MutationRate=" + this.settingService.MutationRate;
+     queryString += "&RouteLength=" + this.settingService.RouteLength;
+    
+    window.history.replaceState({}, "", currentURL + queryString);
+
+  }
+
 
   private drawDots() {
     this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);

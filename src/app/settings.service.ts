@@ -62,7 +62,7 @@ export class SettingsService {
     if (Math.random() < this.MutationRate) {
 
       // let noOfPathMutated = Math.floor(Math.random() * this.HalfRouteLength());
-      let noOfPathMutated = 3;
+      let noOfPathMutated = 1;
       for (let i = 0; i < noOfPathMutated; i++) {
         let random1 = Math.floor(Math.random() * this.RouteLength);
         let random2 = Math.floor(Math.random() * this.RouteLength);
